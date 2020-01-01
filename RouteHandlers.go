@@ -12,7 +12,7 @@ func getHealthCheck(ctx *gin.Context) {
 	ctx.String(http.StatusOK, "OK")
 }
 
-func downloader(ctx *gin.Context) {
+func downloadFiles(ctx *gin.Context) {
 
 	var downloadRequest DownloadRequest
 	err := ctx.BindJSON(&downloadRequest)

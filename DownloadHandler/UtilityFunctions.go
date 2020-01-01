@@ -27,6 +27,7 @@ func (downloadStatus *DownloadStatus) initializeStatus(id, downloadType, status 
 }
 
 func createDirectory(dir string) {
+
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		err = os.MkdirAll(dir, 0755)
 		if err != nil {
@@ -36,6 +37,7 @@ func createDirectory(dir string) {
 }
 
 func getFileName(url string) string {
+
 	var fileName []byte
 	lastSlash := -1
 	for i, v := range url {

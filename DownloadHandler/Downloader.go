@@ -70,6 +70,7 @@ func concurrentDownloader(urls []string, currID string) {
 }
 
 func concurrentDownloadHelper(url, filepath, currID string, wg *sync.WaitGroup) {
+
 	err := downloadFile(url, filepath)
 	if err != nil {
 		DownloadCollection[currID].Status = "FAILED"
