@@ -1,4 +1,4 @@
-package main
+package DownloadHandler
 
 import (
 	"github.com/gin-gonic/gin"
@@ -19,13 +19,8 @@ type DownloadStatus struct {
 	Files        map[string]string `json:"files"`
 }
 
-type badRequestResponse struct {
-	internal_code string `json:"internal_code""`
-	message       string `json:"message"`
-}
+var DownloadCollection = make(map[string]*DownloadStatus)
 
-var downloadCollection = make(map[string]*DownloadStatus)
+var GLOBAL_PATH string = "/Users/sammarthkapse/Downloads/goDownloads/"
 
-var FILE_PATH string = "/Users/sammarthkapse/Downloads/goDownloads/"
-
-var router *gin.Engine
+var Router *gin.Engine

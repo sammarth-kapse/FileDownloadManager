@@ -1,13 +1,15 @@
 package main
 
+import . "github.com/sammarth-kapse/FileDownloadManager/DownloadHandler"
+
 func initializeRoutes() {
 
-	router.GET("/health", getHealthCheck)
-	downloadRoutes := router.Group("/downloads")
+	Router.GET("/health", getHealthCheck)
+	downloadRoutes := Router.Group("/downloads")
 	{
-		downloadRoutes.POST("/", Downloader)
+		downloadRoutes.POST("/", downloader)
 
 		downloadRoutes.GET("/:downloadID", getDownloadStatus)
 	}
-	router.GET("/files", getDownloadedFiles)
+	Router.GET("/files", getDownloadedFiles)
 }

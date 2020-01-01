@@ -2,11 +2,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	. "github.com/sammarth-kapse/FileDownloadManager/DownloadHandler"
 )
 
 func main() {
 
-	router = gin.Default()
+	Router = gin.Default()
 	initializeRoutes()
-	router.Run(":8081")
+	Router.Run(":8081")
 }

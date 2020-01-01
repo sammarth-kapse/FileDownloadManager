@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	. "github.com/sammarth-kapse/FileDownloadManager/DownloadHandler"
 	"log"
 	"net/http"
 )
@@ -12,7 +12,7 @@ func getHealthCheck(ctx *gin.Context) {
 	ctx.String(http.StatusOK, "OK")
 }
 
-func Downloader(ctx *gin.Context) {
+func downloader(ctx *gin.Context) {
 
 	var downloadRequest DownloadRequest
 	err := ctx.BindJSON(&downloadRequest)
@@ -21,8 +21,7 @@ func Downloader(ctx *gin.Context) {
 		return
 	}
 
-	id := getDownloadResponse(downloadRequest)
-	fmt.Println(id)
+	id := GetDownloadResponse(downloadRequest)
 	if id == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"internal_code": 4001,
@@ -39,13 +38,11 @@ func getDownloadStatus(ctx *gin.Context) {
 
 	id := string(ctx.Param("downloadID"))
 
-	if response, ok := downloadCollection[id]; ok {
+	if response, ok := DownloadCollection[id]; ok {
 		jsonFiles, err := json.Marshal(response)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(jsonFiles)
-		fmt.Println(string(jsonFiles))
 		ctx.JSON(http.StatusOK, gin.H{
 			"id":            response.Id,
 			"start_time":    response.StartTime,
@@ -57,7 +54,7 @@ func getDownloadStatus(ctx *gin.Context) {
 	} else {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"internal_code": 4002,
-			"message":       "unknown Download ID",
+			"message":       "unknown DownloadHandler ID",
 		})
 	}
 
