@@ -9,6 +9,7 @@ import (
 )
 
 func getHealthCheck(ctx *gin.Context) {
+
 	ctx.String(http.StatusOK, "OK")
 }
 
