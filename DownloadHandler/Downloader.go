@@ -20,7 +20,8 @@ func GetDownloadResponse(downloadRequest DownloadRequest) string {
 	currStatus := new(DownloadStatus)
 	DownloadCollection[currID] = currStatus
 
-	createDirectory(GLOBAL_PATH + currID)
+	directoryPath := GLOBAL_PATH + currID
+	createDirectory(directoryPath)
 
 	if downloadRequest.Type == "serial" {
 		serialDownloader(downloadRequest.Urls, currID)
@@ -37,14 +38,14 @@ func serialDownloader(urls []string, currID string) {
 
 	for _, v := range urls {
 
-		destination := GLOBAL_PATH + currID + "/" + getFileName(v)
-		err := downloadFile(v, destination)
+		destinationPath := GLOBAL_PATH + currID + "/" + getFileName(v)
+		err := downloadFile(v, destinationPath)
 		if err != nil {
 			DownloadCollection[currID].Status = "FAILED"
 			DownloadCollection[currID].EndTime = time.Now()
 			log.Fatal(err)
 		}
-		DownloadCollection[currID].Files[v] = destination
+		DownloadCollection[currID].Files[v] = destinationPath
 	}
 
 	DownloadCollection[currID].EndTime = time.Now()
@@ -63,6 +64,7 @@ func concurrentDownloader(urls []string, currID string) {
 		go concurrentDownloadHelper(v, destination, currID, &wg)
 		DownloadCollection[currID].Files[v] = destination
 	}
+
 	wg.Wait()
 
 	DownloadCollection[currID].EndTime = time.Now()
@@ -77,6 +79,7 @@ func concurrentDownloadHelper(url, filepath, currID string, wg *sync.WaitGroup) 
 		DownloadCollection[currID].EndTime = time.Now()
 		log.Fatal(err)
 	}
+
 	wg.Done()
 }
 

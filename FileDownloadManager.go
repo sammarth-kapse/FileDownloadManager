@@ -8,6 +8,8 @@ import (
 func main() {
 
 	Router = gin.Default()
+
 	initializeRoutes()
+
 	Router.Run(":8081")
 }

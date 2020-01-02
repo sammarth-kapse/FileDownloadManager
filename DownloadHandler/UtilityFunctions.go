@@ -8,6 +8,7 @@ import (
 )
 
 func isNonValidType(downloadType string) bool {
+
 	if strings.Compare(downloadType, "serial") == 0 {
 		return false
 	}
