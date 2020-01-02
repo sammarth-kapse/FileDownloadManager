@@ -45,10 +45,12 @@ func getDownloadStatus(ctx *gin.Context) {
 	id := ctx.Param("downloadID")
 
 	if response, ok := getDownloadInformationByID(id); ok {
+
 		jsonFiles, err := json.Marshal(response)
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		ctx.JSON(http.StatusOK, gin.H{
 			"id":            response.ID,
 			"start_time":    response.StartTime,
