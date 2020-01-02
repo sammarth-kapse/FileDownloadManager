@@ -37,16 +37,19 @@ func createDirectory(dir string) {
 	}
 }
 
+// Fetches file name from a given URL
 func getFileName(url string) string {
 
 	var fileName []byte
-	lastSlash := -1
+	lastSlashPosition := -1
 	for i, v := range url {
 		if v == '/' {
-			lastSlash = i
+			lastSlashPosition = i
 		}
 	}
-	for i := lastSlash + 1; i != len(url); i++ {
+
+	// Appends all bytes(characters) of url after last '/' into fileName
+	for i := lastSlashPosition + 1; i != len(url); i++ {
 		fileName = append(fileName, url[i])
 	}
 	return string(fileName)

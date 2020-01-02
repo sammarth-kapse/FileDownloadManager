@@ -19,8 +19,10 @@ type DownloadStatus struct {
 	Files        map[string]string `json:"files"`
 }
 
+// Collection of all the download-status mapped through download-id
 var DownloadCollection = make(map[string]*DownloadStatus)
 
+// Location where all the downloaded files are located
 var GLOBAL_PATH string = "/Users/sammarthkapse/Downloads/goDownloads/"
 
 var Router *gin.Engine

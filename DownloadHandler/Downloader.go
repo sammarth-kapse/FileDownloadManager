@@ -71,6 +71,7 @@ func concurrentDownloader(urls []string, currID string) {
 	DownloadCollection[currID].Status = "SUCCESSFUL"
 }
 
+// Reports to concurrentDownloader when a download is completed
 func concurrentDownloadHelper(url, filepath, currID string, wg *sync.WaitGroup) {
 
 	err := downloadFile(url, filepath)
@@ -83,9 +84,9 @@ func concurrentDownloadHelper(url, filepath, currID string, wg *sync.WaitGroup) 
 	wg.Done()
 }
 
-func downloadFile(url string, filepath string) error {
+func downloadFile(url string, filePath string) error {
 
-	out, err := os.Create(filepath)
+	out, err := os.Create(filePath)
 	if err != nil {
 		return err
 	}

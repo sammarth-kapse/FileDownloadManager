@@ -22,6 +22,7 @@ func downloadFiles(ctx *gin.Context) {
 	}
 
 	id := GetDownloadResponse(downloadRequest)
+	// id = "" (empty string) is received for a bad request
 	if id == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"internal_code": 4001,
