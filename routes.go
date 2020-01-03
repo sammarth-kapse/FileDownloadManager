@@ -7,7 +7,7 @@ func initializeRoutes(router *gin.Engine) {
 	router.GET("/health", getHealthCheck)
 	downloadRoutes := router.Group("/downloads")
 	{
-		downloadRoutes.POST("/", downloadFiles)
+		downloadRoutes.POST("/", processDownloading)
 
 		downloadRoutes.GET("/:downloadID", getDownloadStatus)
 	}

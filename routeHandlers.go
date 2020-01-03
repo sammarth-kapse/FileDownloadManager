@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/sammarth-kapse/FileDownloadManager/repository"
 	"log"
@@ -13,7 +12,7 @@ func getHealthCheck(ctx *gin.Context) {
 	ctx.String(http.StatusOK, "OK")
 }
 
-func downloadFiles(ctx *gin.Context) {
+func processDownloading(ctx *gin.Context) {
 
 	var downloadRequest repository.DownloadRequest
 	err := ctx.BindJSON(&downloadRequest)
@@ -46,18 +45,13 @@ func getDownloadStatus(ctx *gin.Context) {
 
 	if response, ok := getDownloadInformationByID(id); ok {
 
-		jsonFiles, err := json.Marshal(response)
-		if err != nil {
-			log.Fatal(err)
-		}
-
 		ctx.JSON(http.StatusOK, gin.H{
 			"id":            response.ID,
 			"start_time":    response.StartTime,
 			"end_time":      response.EndTime,
 			"status":        response.Status,
 			"download_type": response.DownloadType,
-			"files":         string(jsonFiles),
+			"files":         response.Files,
 		})
 	} else {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -65,5 +59,4 @@ func getDownloadStatus(ctx *gin.Context) {
 			"message":       "unknown download ID",
 		})
 	}
-
 }
