@@ -7,6 +7,7 @@ import (
 var SERIAL = "SERIAL"
 var CONCURRENT = "CONCURRENT"
 
+// SERIAL and CONCURRENT are the only valid type
 func isValidType(downloadType string) bool {
 
 	if strings.Compare(downloadType, SERIAL) == 0 {

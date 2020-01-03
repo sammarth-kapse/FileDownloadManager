@@ -20,7 +20,11 @@ var SUCCESS = "SUCCESSFUL"
 
 func (information DownloadInformation) createDirectory() {
 
-	directoryPath := information.DirectoryPath
+	createDirectoryIfNotExist(information.DirectoryPath)
+}
+
+func createDirectoryIfNotExist(directoryPath string) {
+
 	if _, err := os.Stat(directoryPath); os.IsNotExist(err) {
 		err = os.MkdirAll(directoryPath, 0755)
 		if err != nil {
@@ -29,6 +33,7 @@ func (information DownloadInformation) createDirectory() {
 	}
 }
 
+// Marks the start of particular download request
 func (information DownloadInformation) markDownloadStart() {
 
 	information.StartTime = time.Now()
@@ -38,6 +43,7 @@ func (information DownloadInformation) markDownloadStart() {
 	setStatusForGivenID(information.ID, information.Status)
 }
 
+// Marks the end of particular download request
 func (information DownloadInformation) markDownloadEnd(status string) {
 
 	information.EndTime = time.Now()
@@ -54,19 +60,19 @@ func (information DownloadInformation) appendDownloadFile(url, filePath string) 
 	appendFileForGivenID(information.ID, url, filePath)
 }
 
-func getFileName(url string) string {
+func getFileNameFromURL(url string) string {
 
 	var fileName []byte
 	lastSlashPosition := -1
-	for i, v := range url {
-		if v == '/' {
-			lastSlashPosition = i
+	for pos, val := range url {
+		if val == '/' {
+			lastSlashPosition = pos
 		}
 	}
 
 	// Appends all bytes(characters) of url after last '/' into fileName
-	for i := lastSlashPosition + 1; i != len(url); i++ {
-		fileName = append(fileName, url[i])
+	for pos := lastSlashPosition + 1; pos != len(url); pos++ {
+		fileName = append(fileName, url[pos])
 	}
 	return string(fileName)
 }

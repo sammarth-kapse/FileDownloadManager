@@ -15,6 +15,8 @@ func getHealthCheck(ctx *gin.Context) {
 func processDownloading(ctx *gin.Context) {
 
 	var downloadRequest repository.DownloadRequest
+
+	// Request's Body(in JSON format) stored in downloadRequest
 	err := ctx.BindJSON(&downloadRequest)
 	if err != nil {
 		log.Fatal(err)
@@ -41,9 +43,10 @@ func processDownloading(ctx *gin.Context) {
 
 func getDownloadStatus(ctx *gin.Context) {
 
+	// Get id from parameters in given path
 	id := ctx.Param("downloadID")
 
-	if response, ok := getDownloadInformationByID(id); ok {
+	if response, isPresent := getDownloadInformationByID(id); isPresent {
 
 		ctx.JSON(http.StatusOK, gin.H{
 			"id":            response.ID,

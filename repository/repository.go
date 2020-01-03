@@ -4,7 +4,7 @@ import "time"
 
 var downloadCollection = make(map[string]*DownloadInformation)
 
-func insertIntoDownloadCollection(id string, information *DownloadInformation) {
+func InsertIntoDownloadCollection(id string, information *DownloadInformation) {
 
 	downloadCollection[id] = information
 }

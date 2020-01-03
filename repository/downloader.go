@@ -22,6 +22,13 @@ type DownloadInformation struct {
 	URLs          []string
 }
 
+// Creates goDownload directory if it doesn't exist
+func init() {
+
+	createDirectoryIfNotExist(GLOBAL_PATH)
+}
+
+// Constructor Function for Download Information
 func New(request DownloadRequest) *DownloadInformation {
 
 	information := new(DownloadInformation)
@@ -35,7 +42,7 @@ func New(request DownloadRequest) *DownloadInformation {
 	information.DirectoryPath = GLOBAL_PATH + information.ID + "/"
 	information.createDirectory()
 
-	insertIntoDownloadCollection(information.ID, information)
+	InsertIntoDownloadCollection(information.ID, information)
 
 	return information
 }
@@ -54,15 +61,15 @@ func (information DownloadInformation) Download() {
 
 func (information DownloadInformation) serialDownloader() {
 
-	for _, v := range information.URLs {
+	for _, url := range information.URLs {
 
-		filePath := information.DirectoryPath + getFileName(v)
-		err := downloadFile(v, filePath)
+		filePath := information.DirectoryPath + getFileNameFromURL(url)
+		err := downloadFile(url, filePath)
 		if err != nil {
 			information.markDownloadEnd(FAILED)
 			log.Fatal(err)
 		}
-		information.appendDownloadFile(v, filePath)
+		information.appendDownloadFile(url, filePath)
 	}
 
 	information.markDownloadEnd(SUCCESS)
@@ -72,19 +79,20 @@ func (information DownloadInformation) concurrentDownloader() {
 
 	var wg sync.WaitGroup
 
-	for _, v := range information.URLs {
+	for _, url := range information.URLs {
 
 		wg.Add(1)
-		go information.concurrentDownloadHandler(v, &wg)
+		go information.concurrentDownloadHandler(url, &wg)
 	}
 
 	wg.Wait()
 	information.markDownloadEnd(SUCCESS)
 }
 
+// Handles Concurrent Download Requests
 func (information DownloadInformation) concurrentDownloadHandler(url string, wg *sync.WaitGroup) {
 
-	filePath := information.DirectoryPath + getFileName(url)
+	filePath := information.DirectoryPath + getFileNameFromURL(url)
 
 	defer wg.Done()
 
