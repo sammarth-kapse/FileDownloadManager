@@ -91,7 +91,7 @@ func TestGetDownloadStatus(t *testing.T) {
 	}
 }
 
-// To process a download-request and return the obtained ID for corresponding request
+// To process a download-request and return the obtained ID for the corresponding request
 func testGetIDForDownloadRequest(downloadRequest repository.DownloadRequest) string {
 
 	router := gin.Default()
