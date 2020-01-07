@@ -1,2 +1,3 @@
 # FileDownloadManager
-File Download Manager written in GoLang
+File Download Manager written in GoLang 
+Exposes many end points
